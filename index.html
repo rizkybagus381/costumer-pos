@@ -35,7 +35,7 @@
 <body class="bg-gray-50 font-sans text-slate-800 antialiased overflow-hidden flex flex-col h-screen relative">
 
     <!-- Toast Notification -->
-    <div id="toast" class="fixed top-4 left-1/2 transform -translate-x-1/2 z-[80] bg-gray-900 text-white px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2 shadow-lg transition-all duration-300 opacity-0 pointer-events-none translate-y-[-20px]">
+    <div id="toast" class="fixed top-4 left-1/2 transform -translate-x-1/2 z-[60] bg-gray-900 text-white px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2 shadow-lg transition-all duration-300 opacity-0 pointer-events-none translate-y-[-20px]">
         <i class="ph-fill ph-check-circle text-green-400"></i>
         <span id="toast-msg">Item ditambahkan</span>
     </div>
@@ -133,6 +133,7 @@
     <div id="modal-checkout" class="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-[50] h-[90vh] flex flex-col hidden bottom-sheet-enter shadow-2xl">
         <div class="p-4 border-b border-gray-100 flex justify-between items-center shrink-0">
             <div class="flex items-center gap-3">
+                <!-- Diperbaiki: Tombol kembali kini berfungsi karena memanggil openCart() yang telah diupdate dengan closeAllModals() -->
                 <button onclick="window.openCart()" class="p-1.5 text-gray-600 active:scale-95"><i class="ph-bold ph-arrow-left text-xl pointer-events-none"></i></button>
                 <h3 class="font-bold text-gray-800 text-lg">Detail Pesanan</h3>
             </div>
@@ -145,6 +146,7 @@
                 <input type="text" id="cust-name" placeholder="Atas Nama / No. Meja" class="w-full p-3.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-indigo-500 focus:bg-white transition-colors text-sm font-medium" required>
             </div>
             
+            <!-- UPDATE: Input Promo Code di HP Pelanggan dengan Validasi Warna -->
             <div>
                 <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide text-indigo-700">Punya Kode Voucher?</label>
                 <div class="flex gap-2">
@@ -178,7 +180,7 @@
             
             <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100 flex items-start gap-3 mb-6">
                 <i class="ph-fill ph-info text-indigo-500 text-xl shrink-0 mt-0.5"></i>
-                <p class="text-[10px] md:text-xs text-indigo-800 leading-relaxed font-medium">Setelah memesan, silakan selesaikan pembayaran sesuai metode yang Anda pilih untuk mempercepat antrean dapur.</p>
+                <p class="text-[10px] md:text-xs text-indigo-800 leading-relaxed font-medium">Setelah memesan, silakan ke meja kasir dan tunjukkan <strong>Kode Booking</strong> Anda untuk menyelesaikan pembayaran.</p>
             </div>
         </div>
 
@@ -189,38 +191,7 @@
         </div>
     </div>
 
-    <!-- Modal QRIS Velo Pay (Baru Ditambahkan) -->
-    <div id="modal-qris" class="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-[60] h-[85vh] flex flex-col hidden bottom-sheet-enter shadow-2xl">
-        <div class="p-4 border-b border-gray-100 flex justify-between items-center shrink-0">
-            <h3 class="font-bold text-gray-800 text-lg flex items-center gap-2"><i class="ph-fill ph-qr-code text-indigo-600"></i> Pembayaran QRIS</h3>
-            <button onclick="window.cancelQrisPayment()" class="p-1.5 bg-gray-100 text-gray-600 rounded-full active:scale-95"><i class="ph ph-x text-lg pointer-events-none"></i></button>
-        </div>
-        
-        <div class="p-6 flex-1 overflow-y-auto flex flex-col items-center justify-center bg-gray-50">
-            <!-- Loading State -->
-            <div id="qris-loading" class="flex flex-col items-center justify-center py-10">
-                <i class="ph ph-spinner-gap animate-spin text-4xl text-indigo-600 mb-4"></i>
-                <p class="text-sm font-bold text-gray-500">Membuat tagihan QRIS...</p>
-            </div>
-            
-            <!-- QRIS Image Content -->
-            <div id="qris-content" class="hidden flex-col items-center w-full max-w-sm mx-auto text-center">
-                <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Total Pembayaran</p>
-                <h2 id="qris-total" class="text-3xl font-black text-indigo-600 mb-4">Rp 0</h2>
-                
-                <div class="bg-white p-3 rounded-2xl border-2 border-indigo-100 shadow-lg mb-6 relative w-full flex justify-center">
-                    <img id="qris-image" src="" alt="Scan QRIS" class="w-full max-w-[250px] h-auto rounded-xl object-contain">
-                </div>
-                
-                <button onclick="window.checkQrisStatus()" id="btn-check-qris" class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold active:scale-[0.98] transition-transform flex justify-center items-center gap-2 shadow-md mb-3">
-                    <i class="ph-bold ph-arrows-clockwise"></i> Cek Status Pembayaran
-                </button>
-                <p class="text-[10px] text-gray-42EYHgEzWEdjJgYKAu8VjC4DohVYUMbvZ6Ua45MgSaYBTFv3725expKB69YsjM6Utj99E6Sn3LpcxQ4mNrwfrJLM5NGbWiQdi atas. Setelah transfer, klik tombol cek status.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- My Orders Bottom Sheet -->
+    <!-- 4. My Orders Bottom Sheet -->
     <div id="modal-my-orders" class="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-[50] h-[85vh] flex flex-col hidden bottom-sheet-enter shadow-2xl">
         <div class="p-4 border-b border-gray-100 flex justify-between items-center shrink-0">
             <h3 class="font-bold text-gray-800 text-lg flex items-center gap-2"><i class="ph-fill ph-receipt text-indigo-600"></i> Pesanan Saya</h3>
@@ -229,13 +200,13 @@
         <div id="my-orders-container" class="p-4 overflow-y-auto flex-1 space-y-3 scrollbar-hide bg-gray-50"></div>
     </div>
 
-    <!-- Success Screen (Diperbarui) -->
+    <!-- 5. Success Screen -->
     <div id="screen-success" class="fixed inset-0 bg-indigo-600 z-[70] hidden flex flex-col items-center justify-center px-6 text-center fade-in">
         <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-6 shadow-[0_0_40px_rgba(255,255,255,0.4)]">
             <i class="ph-bold ph-check text-4xl text-indigo-600"></i>
         </div>
-        <h2 id="success-title-msg" class="text-2xl font-black text-white mb-2">Pesanan Diterima!</h2>
-        <p id="success-desc-msg" class="text-indigo-100 text-sm mb-8">Pesanan Anda telah masuk ke antrean dapur.</p>
+        <h2 class="text-2xl font-black text-white mb-2">Pesanan Diterima!</h2>
+        <p class="text-indigo-100 text-sm mb-8">Pesanan Anda telah masuk ke antrean dapur.</p>
         
         <div class="bg-white rounded-3xl p-6 w-full max-w-sm shadow-xl mb-8">
             <p class="text-xs text-gray-500 font-bold uppercase tracking-widest mb-2">Kode Booking Anda</p>
@@ -250,7 +221,6 @@
     </div>
 
     <script>
-        // --- KONFIGURASI FIREBASE ---
         const firebaseConfig = {
             apiKey: "AIzaSyBPzVaOwVo7Vny6Zd1Hfuyn21neRAH5GQs",
             authDomain: "absen-fa8b4.firebaseapp.com",
@@ -259,18 +229,12 @@
             messagingSenderId: "186875255423",
             appId: "1:186875255423:web:515159bf18f393de28fd4a"
         };
+
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
         const publicDbRef = (colName) => db.collection('artifacts').doc('pos-app').collection('public').doc('data').collection(colName);
 
-        // --- KONFIGURASI VELO PAY ---
-        const VELO_API_KEY = "Velo-key_a04fa5b88d206ff8bee9db6d17df0814fce716ecb7d79aa0634725e707b093bc";
-        const VELO_BASE_URL = "https://api.velopay.my.id/api/v1";
-        let currentVeloExtId = null;
-        let currentTransaction = null; // Menyimpan data order saat QRIS aktif
-
-        // --- STATE APLIKASI ---
         const state = {
             posName: 'CAFE POS', products: [], categories: [], addonGroups: [], vouchers: [], history: [], cart: [], 
             myOrderIds: JSON.parse(localStorage.getItem('myOrderIds') || '[]'),
@@ -278,8 +242,9 @@
         };
 
         const formatRp = (num) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(Number(num) || 0);
+
         window.playHaptic = () => { try { if (navigator.vibrate) navigator.vibrate(30); } catch(e){} };
-        
+
         window.showToast = (msg) => {
             const toast = document.getElementById('toast');
             document.getElementById('toast-msg').innerText = msg;
@@ -287,7 +252,6 @@
             setTimeout(() => toast.classList.add('opacity-0', 'translate-y-[-20px]'), 2000);
         };
 
-        // --- INITIALIZATION ---
         async function initApp() {
             try { await auth.signInAnonymously(); } catch (e) {}
             
@@ -328,7 +292,6 @@
             if(savedCart) { state.cart = JSON.parse(savedCart); updateCartBadge(); }
         }
 
-        // --- RENDERING MENU & CATEGORIES ---
         function renderCategories() {
             const container = document.getElementById('category-filters');
             let html = `<button onclick="window.setCategoryFilter('Semua')" class="px-4 py-1.5 rounded-full text-sm font-bold whitespace-nowrap transition-colors border ${state.selectedCategory === 'Semua' ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm' : 'bg-white text-gray-600 border-gray-200'}">Semua</button>`;
@@ -480,7 +443,7 @@
 
         window.openCart = () => {
             window.playHaptic();
-            window.closeAllModals(); 
+            window.closeAllModals(); // Memastikan modal lain tertutup sebelum cart terbuka
             
             const container = document.getElementById('cart-items-container');
             
@@ -538,7 +501,7 @@
             window.playHaptic();
             if(state.cart.length === 0) return alert("Keranjang kosong!");
             
-            window.clearVoucherCustomer(); 
+            window.clearVoucherCustomer(); // Clean reset voucher UI
             window.closeAllModals();
             
             document.getElementById('cust-name').value = '';
@@ -576,16 +539,22 @@
                 state.currentDiscount = subtotal * (voucher.discountPercent / 100);
                 window.updateCheckoutTotalDisplay();
                 
+                // Style UI Berhasil (Hijau)
                 codeInput.classList.remove('border-indigo-200', 'border-red-500', 'bg-red-50', 'text-red-700');
                 codeInput.classList.add('border-green-500', 'bg-green-50', 'text-green-700');
+                
                 msgEl.innerText = `Berhasil! Anda mendapat diskon ${voucher.discountPercent}%.`;
                 msgEl.className = "text-xs font-bold mt-1.5 text-green-600 block";
+                
                 btnClear.classList.remove('hidden');
             } else {
                 window.clearVoucherCustomer();
-                codeInput.value = codeVal; 
+                
+                // Style UI Gagal (Merah)
+                codeInput.value = codeVal; // keep the typed text
                 codeInput.classList.remove('border-indigo-200', 'border-green-500', 'bg-green-50', 'text-green-700');
                 codeInput.classList.add('border-red-500', 'bg-red-50', 'text-red-700');
+                
                 msgEl.innerText = "Kode voucher tidak valid atau sudah tidak aktif.";
                 msgEl.className = "text-xs font-bold mt-1.5 text-red-500 block";
             }
@@ -594,10 +563,14 @@
         window.clearVoucherCustomer = () => {
             window.playHaptic();
             state.currentDiscount = 0;
+            
             const codeInput = document.getElementById('checkout-voucher-code');
             codeInput.value = '';
+            
+            // Reset style ke normal
             codeInput.classList.remove('border-green-500', 'bg-green-50', 'text-green-700', 'border-red-500', 'bg-red-50', 'text-red-700');
             codeInput.classList.add('border-indigo-200', 'bg-indigo-50', 'text-indigo-700');
+            
             document.getElementById('voucher-message').classList.add('hidden');
             document.getElementById('btn-clear-voucher').classList.add('hidden');
             window.updateCheckoutTotalDisplay();
@@ -624,26 +597,6 @@
             }
         };
 
-        // HELPER TAMPILKAN LAYAR SUKSES
-        window.showSuccessScreen = (bookingCode, customerName, total, isPaid = false) => {
-            document.getElementById('success-order-id').innerText = bookingCode;
-            document.getElementById('success-name').innerText = customerName;
-            document.getElementById('success-total').innerText = formatRp(total);
-
-            const msgTitle = document.getElementById('success-title-msg');
-            const msgDesc = document.getElementById('success-desc-msg');
-
-            if(isPaid) {
-                msgTitle.innerText = "Pembayaran Berhasil!";
-                msgDesc.innerText = "Terima kasih, pesanan Anda telah lunas dan siap diproses.";
-            } else {
-                msgTitle.innerText = "Pesanan Diterima!";
-                msgDesc.innerText = "Silakan ke kasir untuk melakukan pembayaran.";
-            }
-
-            document.getElementById('screen-success').classList.remove('hidden');
-        };
-
         window.submitOrder = async () => {
             window.playHaptic();
             const customerName = document.getElementById('cust-name').value.trim();
@@ -660,14 +613,12 @@
             const transactionId = `TRX-${Date.now()}`;
             const bookingCode = transactionId.slice(-5).toUpperCase();
 
-            // Setup Data Transaksi ke Database
             const transaction = {
                 id: transactionId, bookingCode: bookingCode, date: new Date().toISOString(), items: state.cart,
                 subtotal: subtotal, discount: state.currentDiscount, tax: 0, total: total,
                 paymentMethod: paymentMethod, paymentAmount: 0, change: 0,
                 status: 'SUCCESS', fulfillmentStatus: 'WAITING',
-                customerName: customerName, notes: notes,
-                paymentStatus: paymentMethod === 'QRIS / Transfer' ? 'UNPAID_QRIS' : 'PENDING_CASHIER'
+                customerName: customerName, notes: notes
             };
 
             const btn = document.querySelector('#modal-checkout button');
@@ -675,7 +626,6 @@
             btn.innerHTML = `<i class="ph ph-spinner-gap animate-spin text-xl"></i> Memproses...`; btn.disabled = true;
 
             try {
-                // 1. Simpan Transaksi & Potong Stok ke Database
                 await publicDbRef('history').doc(transaction.id).set(transaction);
                 for (const item of state.cart) {
                     const prod = state.products.find(p => String(p.id) === String(item.product.id));
@@ -685,114 +635,18 @@
                 state.myOrderIds.push(transactionId);
                 localStorage.setItem('myOrderIds', JSON.stringify(state.myOrderIds));
 
-                // 2. Kosongkan Keranjang
-                state.cart = []; state.currentDiscount = 0; localStorage.removeItem('eMenuCart'); updateCartBadge(); 
-                window.closeAllModals();
+                state.cart = []; state.currentDiscount = 0; localStorage.removeItem('eMenuCart'); updateCartBadge(); window.closeAllModals();
 
-                // 3. Arahkan Pembayaran Sesuai Metode
-                if (paymentMethod === 'QRIS / Transfer') {
-                    window.openModal('modal-qris');
-                    document.getElementById('qris-loading').classList.remove('hidden');
-                    document.getElementById('qris-content').classList.add('hidden');
-
-                    // Request Velo Pay API
-                    const veloRes = await fetch(`${VELO_BASE_URL}/payments`, {
-                        method: 'POST',
-                        headers: { 'Authorization': `Bearer ${VELO_API_KEY}`, 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ 
-                            amount: total, 
-                            external_id: transactionId, 
-                            expired_hours: 1, 
-                            note: `Pesanan E-Menu: ${bookingCode} (${customerName})` 
-                        })
-                    });
-                    
-                    const veloData = await veloRes.json();
-
-                    if (veloRes.ok && veloData.status === 'success') {
-                        currentVeloExtId = veloData.data.external_id;
-                        currentTransaction = transaction;
-
-                        document.getElementById('qris-loading').classList.add('hidden');
-                        document.getElementById('qris-content').classList.remove('hidden');
-                        document.getElementById('qris-total').innerText = formatRp(total);
-                        document.getElementById('qris-image').src = veloData.data.qr_url;
-                    } else {
-                        alert("Gagal memuat sistem QRIS. Pesanan dialihkan untuk bayar di kasir.");
-                        window.closeAllModals();
-                        window.showSuccessScreen(bookingCode, customerName, total, false);
-                    }
-                } else {
-                    // Kasir Biasa
-                    window.showSuccessScreen(bookingCode, customerName, total, false);
-                }
-
+                document.getElementById('success-order-id').innerText = bookingCode; 
+                document.getElementById('success-name').innerText = customerName;
+                document.getElementById('success-total').innerText = formatRp(total);
+                document.getElementById('screen-success').classList.remove('hidden');
             } catch (err) {
-                console.error(err); alert("Terjadi kesalahan jaringan saat membuat pesanan.");
+                console.error(err); alert("Terjadi kesalahan jaringan. Silakan coba lagi.");
             } finally {
                 btn.innerHTML = originalText; btn.disabled = false;
             }
         };
-
-        // --- FUNGSI CEK STATUS VELO PAY ---
-        window.checkQrisStatus = async () => {
-            if (!currentVeloExtId || !currentTransaction) return;
-            const btn = document.getElementById('btn-check-qris');
-            const origText = btn.innerHTML;
-            btn.innerHTML = `<i class="ph ph-spinner-gap animate-spin text-xl"></i> Mengecek...`;
-            btn.disabled = true;
-
-            try {
-                const res = await fetch(`${VELO_BASE_URL}/payments/external/${currentVeloExtId}`, {
-                    method: 'GET',
-                    headers: { 'Authorization': `Bearer ${VELO_API_KEY}` }
-                });
-                const data = await res.json();
-
-                if (res.ok && data.status === 'success') {
-                    const statusVal = data.data.status.toUpperCase();
-                    if (statusVal === 'PAID' || statusVal === 'SUCCESS') {
-                        
-                        // Update status di Firebase Kasir menjadi LUNAS!
-                        await publicDbRef('history').doc(currentTransaction.id).update({
-                            paymentStatus: 'PAID_QRIS',
-                            paymentAmount: currentTransaction.total
-                        });
-
-                        window.closeAllModals();
-                        window.showSuccessScreen(currentTransaction.bookingCode, currentTransaction.customerName, currentTransaction.total, true);
-                        window.showToast("Pembayaran Lunas! ✅");
-                    } else if (statusVal === 'EXPIRED') {
-                        alert("Waktu pembayaran QRIS telah habis. Silakan bayar ke kasir.");
-                    } else {
-                        alert("Pembayaran belum masuk. Pastikan Anda telah menyelesaikan transfer lalu klik tombol ini lagi.");
-                    }
-                } else {
-                    alert("Gagal mengecek status pembayaran ke server.");
-                }
-            } catch(e) {
-                alert("Kesalahan jaringan.");
-            } finally {
-                btn.innerHTML = origText;
-                btn.disabled = false;
-            }
-        }
-
-        // --- FUNGSI BATAL QRIS (DIALIHKAN KE KASIR) ---
-        window.cancelQrisPayment = async () => {
-            if(confirm("Apakah Anda yakin ingin menutup QRIS? Pesanan akan dialihkan untuk Bayar di Kasir.")) {
-                if(currentTransaction) {
-                    await publicDbRef('history').doc(currentTransaction.id).update({
-                        paymentMethod: 'Bayar di Kasir',
-                        paymentStatus: 'PENDING_CASHIER'
-                    });
-                    window.closeAllModals();
-                    window.showSuccessScreen(currentTransaction.bookingCode, currentTransaction.customerName, currentTransaction.total, false);
-                } else {
-                    window.closeAllModals();
-                }
-            }
-        }
 
         window.resetApp = () => { window.playHaptic(); document.getElementById('screen-success').classList.add('hidden'); window.scrollTo(0,0); };
 
@@ -818,16 +672,15 @@
                     else if (trx.fulfillmentStatus === 'WAITING') statusBadge = '<span class="bg-orange-100 text-orange-600 border border-orange-200 px-2 py-0.5 rounded text-[10px] font-bold">DIPROSES</span>';
                     else statusBadge = '<span class="bg-green-100 text-green-600 border border-green-200 px-2 py-0.5 rounded text-[10px] font-bold">SELESAI</span>';
 
-                    let paymentBadge = '';
-                    if(trx.paymentStatus === 'PAID_QRIS' || trx.paymentStatus === 'PAID') paymentBadge = '<span class="text-green-600 text-[10px] font-bold"><i class="ph-fill ph-check-circle"></i> LUNAS</span>';
-                    else paymentBadge = '<span class="text-orange-500 text-[10px] font-bold"><i class="ph-fill ph-clock"></i> BELUM BAYAR</span>';
-
                     const bcode = trx.bookingCode || trx.id.slice(-5).toUpperCase();
                     const itemsHtml = trx.items.map(i => {
                         let addonText = '';
                         if (i.addons && i.addons.length > 0) addonText = `<span class="block text-[10px] text-gray-500 font-normal mt-0.5 leading-tight">- ${i.addons.map(a=>a.name).join(', ')}</span>`;
                         return `<li class="text-xs md:text-sm font-bold text-gray-700 py-1.5 border-b border-gray-100 last:border-0">${i.quantity}x ${i.product.name} ${addonText}</li>`;
                     }).join('');
+
+                    const notesHtml = trx.notes && trx.notes.trim() !== '' ? `<div class="mt-2 p-2 bg-yellow-50 rounded border border-yellow-200 text-xs text-yellow-800 break-words leading-relaxed"><i class="ph-fill ph-note-pencil mr-1 text-sm"></i><strong>Catatan:</strong> ${trx.notes}</div>` : '';
+                    const discountHtml = trx.discount > 0 ? `<div class="flex justify-between items-center pt-2"><span class="text-xs font-bold text-red-500">Diskon:</span><span class="font-bold text-red-500">-${formatRp(trx.discount)}</span></div>` : '';
 
                     return `
                     <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-[0_2px_10px_rgba(0,0,0,0.03)] flex flex-col gap-2">
@@ -836,12 +689,10 @@
                                 <p class="text-[10px] text-gray-500 font-medium mb-0.5">${new Date(trx.date).toLocaleString('id-ID')}</p>
                                 <p class="font-black text-indigo-700 text-lg tracking-wider">KODE: <span class="text-red-500">${bcode}</span></p>
                             </div>
-                            <div class="flex flex-col items-end gap-1">
-                                ${statusBadge}
-                                ${paymentBadge}
-                            </div>
+                            ${statusBadge}
                         </div>
-                        <div class="bg-gray-50 p-3 rounded-xl border border-gray-100"><ul class="space-y-0.5">${itemsHtml}</ul></div>
+                        <div class="bg-gray-50 p-3 rounded-xl border border-gray-100"><ul class="space-y-0.5">${itemsHtml}</ul>${notesHtml}</div>
+                        ${discountHtml}
                         <div class="flex justify-between items-center mt-1 pt-2 border-t border-dashed border-gray-200">
                             <span class="text-xs font-bold text-gray-500">Total Tagihan:</span>
                             <span class="font-black text-gray-800">${formatRp(trx.total)}</span>
@@ -854,10 +705,7 @@
         window.openModal = (id) => { document.getElementById('modal-backdrop').classList.remove('hidden'); document.getElementById(id).classList.remove('hidden'); };
         window.closeAllModals = () => {
             document.getElementById('modal-backdrop').classList.add('hidden');
-            ['modal-addon', 'modal-cart', 'modal-checkout', 'modal-my-orders', 'modal-qris'].forEach(id => {
-                const el = document.getElementById(id);
-                if(el) el.classList.add('hidden');
-            });
+            ['modal-addon', 'modal-cart', 'modal-checkout', 'modal-my-orders'].forEach(id => document.getElementById(id).classList.add('hidden'));
         };
 
         initApp();
